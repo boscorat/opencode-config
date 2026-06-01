@@ -1,0 +1,21 @@
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Dependencies (in case anything sneaks in)
+node_modules/
+
+# Per-machine / secret-bearing files
+*.env
+*.local.jsonc
+opencode.json
+opencode.jsonc
+.config-backup/
+.pre-opencode-config.bak
