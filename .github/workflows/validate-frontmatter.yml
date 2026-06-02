@@ -1,0 +1,42 @@
+name: validate-frontmatter
+
+# Mirrors the strict validation rules in skills/opencode-agent-expert/SKILL.md
+# §6 anti-pattern index. Runs on every PR and on direct pushes to master.
+
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'skills/**'
+      - 'commands/**'
+      - '.github/workflows/**'
+  push:
+    branches: [master]
+    paths:
+      - 'agents/**'
+      - 'skills/**'
+      - 'commands/**'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate agent/skill/command frontmatter
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run validator
+        run: bash .github/workflows/scripts/validate-frontmatter.sh
+
+      - name: Summary on failure
+        if: failure()
+        run: |
+          echo "## Frontmatter validation failed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "See the step log above for the numbered error report." >> "$GITHUB_STEP_SUMMARY"
+          echo "Rules enforced: \`skills/opencode-agent-expert/SKILL.md\` §6 anti-pattern index." >> "$GITHUB_STEP_SUMMARY"
