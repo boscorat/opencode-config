@@ -148,10 +148,62 @@ When you produce an agent, consider whether the user also wants:
 
 Always suggest both, never auto-create. The user decides.
 
-## 8. References
+## 8. Companion skills pattern: Organizing subordinate skills by agent
+
+When creating multiple skills for a single agent (e.g., `py_analyse` and `py_implement` for `python-pyside6-reviewer`), organize them in a shared collection within your skills repository to maintain a single source of truth.
+
+### Structure
+
+Store agent-specific skills in your repo at:
+```
+~/.config/opencode/repo/skills/<agent-name>/
+├── <skill-1>/
+│   └── SKILL.md
+├── <skill-2>/
+│   └── SKILL.md
+└── README.md (optional, summarizes the skill collection)
+```
+
+Then symlink the collection to the user config for discovery:
+```bash
+ln -s ~/.config/opencode/repo/skills/<agent-name> ~/.agents/skills/<agent-name>
+```
+
+### Benefits
+
+- **Single source of truth**: All agent-related skills tracked together in your repo
+- **Consistency**: Commands, agents, and skills all version-controlled together
+- **Discoverability**: Skills remain discoverable via standard `~/.agents/skills/<name>` paths
+- **Parallel organization**: Similar to how you organize commands by purpose or agents by domain
+
+### Example
+
+`python-pyside6-reviewer` agent uses two subordinate skills:
+- `py_analyse` — analyze code for refactoring opportunities
+- `py_implement` — transform code based on suggestions
+
+Both stored in `~/.config/opencode/repo/skills/python-pyside6-reviewer/` with:
+- Symlink at `~/.agents/skills/python-pyside6-reviewer/`
+- README documenting the collection
+- Skills discoverable as optional tools invoked by the agent
+
+### When to use
+
+Use this pattern when:
+- An agent has 2+ subordinate skills with related purpose
+- You want to track skill evolution alongside agent changes
+- Skills should be reused across projects
+
+Consider keeping a skill directly in the agent's prompt when:
+- There's only one skill
+- The skill is very short (< 200 lines)
+- The skill is specific to one user/project
+
+## 9. References
 
 - opencode.ai/docs/agents (last updated 2026-05-31)
 - opencode.ai/docs/skills (last updated 2026-05-31)
 - opencode.ai/docs/commands (last updated 2026-05-31)
 - github.com/Razuer/handy-opencode/tree/master/skills/agent-creator — permission/prompt structure inspiration
 - github.com/mikehenken/agent-builder — 14-question Q&A workflow inspiration
+- `python-pyside6-reviewer` skills collection — example implementation of companion skills pattern
