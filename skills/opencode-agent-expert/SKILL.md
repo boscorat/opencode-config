@@ -206,4 +206,5 @@ Consider keeping a skill directly in the agent's prompt when:
 - opencode.ai/docs/commands (last updated 2026-05-31)
 - github.com/Razuer/handy-opencode/tree/master/skills/agent-creator — permission/prompt structure inspiration
 - github.com/mikehenken/agent-builder — 14-question Q&A workflow inspiration
-- `python-pyside6-reviewer` skills collection — example implementation of companion skills pattern
+- `python-pyside6-reviewer` skills collection — example implementation of companion skills pattern (code review)
+- `documentation-reviewer` skills collection — example implementation of companion skills pattern (documentation review)
