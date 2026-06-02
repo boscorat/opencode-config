@@ -19,3 +19,12 @@ opencode.json
 opencode.jsonc
 .config-backup/
 .pre-opencode-config.bak
+
+# Confidence and Paranoia agents (pending legal review of Red Dwarf character inspiration)
+agents/confidence.md
+agents/paranoia.md
+commands/confidence.md
+commands/paranoia.md
+commands/confidence_paranoia_debate.md
+commands/paranoia_respond.md
+commands/confidence_respond.md
