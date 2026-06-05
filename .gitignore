@@ -20,11 +20,5 @@ opencode.jsonc
 .config-backup/
 .pre-opencode-config.bak
 
-# Confidence and Paranoia agents (pending legal review of Red Dwarf character inspiration)
-agents/confidence.md
-agents/paranoia.md
-commands/confidence.md
-commands/paranoia.md
-commands/confidence_paranoia_debate.md
-commands/paranoia_respond.md
-commands/confidence_respond.md
+# Confidence and Paranoia agents: Loosely based on character archetypes from Red Dwarf S1E4 'Confidence and Paranoia' (Grant Naylor Productions, BBC). See agent frontmatter for attribution.
+# Bank Config Expert agent: Specialized bank statement parser config advisor with metadata-driven testing integration (PR #95).
