@@ -59,6 +59,7 @@ Each folder must have a `SKILL.md` at the top level with the correct `name` fiel
 
 **Permission shapes**: Common patterns:
 - Read-only agents (review, audit): must set `bash: deny` and `write: deny`
+- PDF-safe agents: include `read: { "anonymised*": "allow", "*.pdf": "ask" }` to guard against sensitive local PDFs
 - Task routing: use `permission.task` with specific agent names to prevent self-loops
 - Bash glob: for careful commands, use `"ls *": "allow"` instead of `"*": "allow"`
 
@@ -126,6 +127,10 @@ Every PR to this repo must pass the same checks that `opencode-agent-expert` run
 - `permission.task` must never include `"*": "allow"` and must deny
   the agent's own name to prevent self-invocation loops.
 - Read-only agents must have `bash: deny` (or a strict glob map).
+- **All agents except `scout` must include PDF access rule** (enforced):
+  `read: { "anonymised*": "allow", "*.pdf": "ask" }`. Rationale: Protect
+  against unintended processing of sensitive local PDF files. `scout` is
+  exempt (internet-focused, not local filesystems).
 
 ## Commands (`commands/<name>.md`)
 
