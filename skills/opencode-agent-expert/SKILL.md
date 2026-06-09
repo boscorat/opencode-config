@@ -100,6 +100,24 @@ Each key takes the shorthand `allow` | `ask` | `deny`, OR for tool-style keys an
 
 Permission keys are matched as wildcards against tool names, so `"mymcp_*": "deny"` denies every tool from an MCP server, `"mymcp_search": "ask"` targets one.
 
+### PDF access rule (recommended pattern)
+To protect against accidental processing of sensitive local PDF files, all agents (except `scout` and generic meta-agents like `explore` used in non-local contexts) should restrict PDF access via glob patterns:
+
+```yaml
+permission:
+  read:
+    "anonymised*": "allow"    # Allow anonymised PDFs (soft guardrail)
+    "*.pdf": "ask"            # Ask for all other PDFs
+```
+
+This pattern:
+- Allows unrestricted access to anonymised PDFs (filename starts with `anonymised`)
+- Requires explicit user permission for any other `.pdf` file
+- Applies only to **local** file access; internet-based PDF fetches via `webfetch` are unaffected
+- Does NOT apply to `scout` (internet-focused) or system meta-agents (`build`, `plan`, `general`)
+
+Rationale: Protects against unintended processing of sensitive documents while remaining soft (ask, not deny).
+
 ### `task` permission (subagent routing)
 Use `permission.task` to control which subagents an agent can invoke. `"*": "deny"` removes the subagent from the Task tool description entirely. Rules are evaluated in order, **last matching rule wins**. Users can always invoke any subagent via `@`, even if `task` permission denies it.
 
@@ -122,6 +140,17 @@ Formatting, length, tone.
 1-2 short worked examples.
 ```
 
+**Note on permissions**: When creating a new agent, unless it is `scout` or a system meta-agent, include the standard PDF access rule in the frontmatter:
+
+```yaml
+permission:
+  read:
+    "anonymised*": "allow"
+    "*.pdf": "ask"
+```
+
+This is the standard guard rail for protecting against accidental processing of sensitive local PDFs.
+
 ## 6. Anti-pattern index (strict mode rejects all of these)
 
 | Anti-pattern | Fix |
@@ -138,6 +167,7 @@ Formatting, length, tone.
 | Agent name = `build` / `plan` / `general` / `explore` / `scout` (shadows a built-in) | Choose a different name, or get explicit user confirmation |
 | Skill description missing USE FOR / DO NOT USE FOR | Add both, comma-separated. |
 | Frontmatter fields beyond the recognized set on a skill | Remove (skill only recognizes `name`, `description`, `license`, `compatibility`, `metadata`). |
+| Agent missing PDF access rule (except `scout` or system meta-agents) | Add `read: { "anonymised*": "allow", "*.pdf": "ask" }` to protect against sensitive PDFs |
 
 ## 7. Companion-artifact recipes
 
