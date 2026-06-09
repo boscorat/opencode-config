@@ -3,7 +3,9 @@ description: "Creates and optimizes bank_statement_parser TOML configs with pdfp
 mode: subagent
 temperature: 0.2
 permission:
-  read: allow
+  read:
+    "anonymised*": "allow"
+    "*.pdf": "ask"
   glob: allow
   grep: allow
   list: allow
