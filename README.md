@@ -32,6 +32,12 @@ git clone https://github.com/boscorat/opencode-config.git
 cd opencode-config
 ./install.sh
 ```
+or
+```sh
+git clone git@github.com:boscorat/opencode-config.git
+cd opencode-config
+./install.sh
+```
 
 `install.sh` is idempotent and non-destructive. It will:
 
